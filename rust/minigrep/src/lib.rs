@@ -27,7 +27,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     } else {
         search(&config.query, &contents)
     };
-    for line in search(&config.query, &contents) {
+    for line in results {
         println!("{}", line);
     }
     Ok(())
