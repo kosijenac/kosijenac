@@ -1,6 +1,7 @@
 use std::f64::consts::PI;
 
 fn main() -> () {
+    let cl = |a: i32| a / 2;
     let tr = Triangle::new(3., 4., 5.);
     let p: f64 = match tr.area() {
         Some(x) => x,
