@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "count_inverses"
+name = "majority"
 version = "0.1.0"
