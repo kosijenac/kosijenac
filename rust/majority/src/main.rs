@@ -49,7 +49,7 @@ fn main() {
  * Ako je niz prazan, vraca `None`, inace vraca kandidata za vecinu.
  * Koristi https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm.
  */
-fn find_majority<T: PartialEq>(votes: &Vec<T>) -> Option<&T> {
+fn find_majority<T: PartialEq + std::fmt::Debug>(votes: &Vec<T>) -> Option<&T> {
     let mut counter = 0;
     let mut element = match votes.get(0) {
         Some(vote) => vote,
@@ -67,6 +67,8 @@ fn find_majority<T: PartialEq>(votes: &Vec<T>) -> Option<&T> {
         } else {
             counter -= 1;
         }
+        dbg!(counter);
+        dbg!(element);
     }
     return Some(element);
 }
