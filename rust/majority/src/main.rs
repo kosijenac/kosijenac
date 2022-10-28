@@ -6,7 +6,7 @@ fn main() {
         124, 0, 13, 51, 201, 42, 13, 43, 59, 73, 13, 13, 13, 92, 102, 43, 84, 13, 13, 28, 162, 11,
     ];
     let binary = vec![true, true, false, false, false, true, true, false, true];
-    let misc = vec!["🐔", "⭐", "🏳️‍⚧️", "🐱", "🌈", "🐶", "🏴‍☠️", "⚖️", "🏳️‍⚧️", "🛡️"];
+    let misc = vec!["🐔", "🐔", "🌈", "🐱", "🌈", "🐶", "🌈", "🐱", "🌈", "🐱"];
     println!(
         "Kandidat za vecinu niza {:?} je {}, te on {} apsolutna vecina.",
         fruit,
