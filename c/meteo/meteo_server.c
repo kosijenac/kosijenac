@@ -30,7 +30,7 @@ void put_city(int sock, char *msg)
     }
     int temp = ntohl(temp_n);
     for (int i = 0; i < brProg; i++)
-        if (strcmp(prognoze[i].grad, grad))
+        if (strcmp(prognoze[i].grad, grad) == 0)
             prog_ix = i;
     if (prog_ix == -1)
     {
@@ -65,8 +65,8 @@ void get_city(int sock, char *msg)
     else
     {
         posaljiPoruku(sock, RESPONSE, "OK");
-        char resp[GRAD_SIZE + 5];
-        sprintf(resp, "%s: %d°C, %s", htonl(prognoze[prog_ix].temp), prognoze[prog_ix].opis);
+        char resp[GRAD_SIZE + OPIS_SIZE + 5];
+        sprintf(resp, "%d %s", htonl(prognoze[prog_ix].temp), prognoze[prog_ix].opis);
         posaljiPoruku(sock, GET_CITY_R, resp);
     }
 }

@@ -26,13 +26,13 @@ int posaljiPoruku(int sock, int vrstaPoruke, const char *poruka);
         return -1;           \
     }
 
-#define handle_response_macro(sock, vrsta, resp, TYPE)         \
+#define handle_response_macro(sock, vrsta, resp)               \
     if (primiPoruku(sock, &vrsta, &resp) != OK)                \
     {                                                          \
         printf("Error at socket %d!\n", sock);                 \
         return;                                                \
     }                                                          \
-    if (vrsta != TYPE)                                         \
+    if (vrsta != RESPONSE)                                     \
         printf("Server nije vratio dobar format odgovora!\n"); \
     if (strcmp(resp, "OK"))                                    \
         printf("Server javlja sljedecu gresku: ");             \

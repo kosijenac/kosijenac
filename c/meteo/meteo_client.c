@@ -26,7 +26,7 @@ void put_city(int sock)
 
     int vrsta;
     char *resp = (char *)malloc(100);
-    handle_response_macro(sock, vrsta, resp, RESPONSE);
+    handle_response_macro(sock, vrsta, resp);
 
     free(resp);
 }
@@ -36,7 +36,7 @@ void farewell(int sock)
     posaljiPoruku(sock, BYE, "...and may we meet again someday, old friend");
     int vrsta;
     char *resp = (char *)malloc(20);
-    handle_response_macro(sock, vrsta, resp, RESPONSE);
+    handle_response_macro(sock, vrsta, resp);
     free(resp);
 }
 
@@ -62,7 +62,8 @@ int main(int argc, char **argv)
     {
         printf("\nOdaberite opciju:\n1. dodavanje/azuriranje prognoze\n5. izlaz iz programa\n>>> ");
         int odabir;
-        scanf("%d", &odabir);
+        if (scanf("%d", &odabir) < 1)
+            continue;
         switch (odabir)
         {
         case PUT_CITY:
@@ -74,7 +75,6 @@ int main(int argc, char **argv)
             break;
         default:
             printf("To nije dozvoljen odabir!\n");
-            break;
         }
     }
     if (close(sock) == -1)

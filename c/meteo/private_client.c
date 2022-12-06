@@ -20,9 +20,19 @@ void get_city(int sock)
 
     int vrsta;
     char *resp = (char *)malloc(100);
-    handle_response_macro(sock, vrsta, resp, RESPONSE);
+    handle_response_macro(sock, vrsta, resp);
+    if (strcmp(resp, "OK"))
+        return;
 
-    handle_response_macro(sock, vrsta, resp, GET_CITY_R);
+    if (primiPoruku(sock, &vrsta, &resp) != OK)
+        return;
+    if (vrsta != GET_CITY_R)
+        printf("Server nije vratio dobar format odgovora!\n");
+    int temp_n;
+    char opis[OPIS_SIZE];
+    if (sscanf(resp, "%d %s", &temp_n, opis) < 2)
+        return;
+    printf("%s: %d°C, %s\n", grad, ntohl(temp_n), opis);
 
     free(resp);
 }
@@ -32,7 +42,7 @@ void farewell(int sock)
     posaljiPoruku(sock, BYE, "...and may we never meet again");
     int vrsta;
     char *resp = (char *)malloc(20);
-    handle_response_macro(sock, vrsta, resp, RESPONSE);
+    handle_response_macro(sock, vrsta, resp);
     free(resp);
 }
 
@@ -58,7 +68,8 @@ int main(int argc, char **argv)
     {
         printf("\nOdaberite opciju:\n2. pregled prognoze\n5. izlaz iz programa\n>>> ");
         int odabir;
-        scanf("%d", &odabir);
+        if (scanf("%d", &odabir) < 1)
+            continue;
         switch (odabir)
         {
         case GET_CITY:
@@ -70,7 +81,6 @@ int main(int argc, char **argv)
             break;
         default:
             printf("To nije dozvoljen odabir!\n");
-            break;
         }
     }
     if (close(sock) == -1)
