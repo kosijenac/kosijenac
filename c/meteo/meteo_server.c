@@ -85,8 +85,19 @@ void get_city(int sock, char *msg)
     pthread_mutex_unlock(&prog_mutex);
 }
 
-void handleClient(struct handler_args *args)
+void end_thread(struct handler_args *args)
 {
+    printf("Closed connection from socket %d at thread %d.\n", args->sock, args->thread_ix);
+    pthread_mutex_lock(&thread_status_mutex);
+    thread_status[args->thread_ix] = IDLE;
+    pthread_mutex_unlock(&thread_status_mutex);
+    if (close(args->sock) == -1)
+        perror("close");
+}
+
+void *handleClient(void *args_gen)
+{
+    struct handler_args *args = (struct handler_args *)args_gen;
     int vrsta, bye = 0;
     char *msg = (char *)malloc(GRAD_SIZE + OPIS_SIZE + 10);
     while (!bye)
@@ -94,6 +105,7 @@ void handleClient(struct handler_args *args)
         if (primiPoruku(args->sock, &vrsta, &msg) != OK)
         {
             printf("Error at socket %d!\n", args->sock);
+            end_thread(args);
             bye++;
             continue;
         }
@@ -107,6 +119,7 @@ void handleClient(struct handler_args *args)
             break;
         case BYE:
             posaljiPoruku(args->sock, RESPONSE, "OK");
+            end_thread(args);
             bye++;
             break;
         default:
@@ -114,6 +127,7 @@ void handleClient(struct handler_args *args)
         }
     }
     free(msg);
+    return NULL;
 }
 
 int main(int argc, char **argv)
@@ -172,10 +186,5 @@ int main(int argc, char **argv)
             pthread_create(&threads[available], NULL, handleClient, &args[available]);
         }
         pthread_mutex_unlock(&thread_status_mutex);
-
-        if (close(commSock) == -1)
-            perror("close");
-        printf("Closed connection from %s [port=%d, sock=%d].\n",
-               inet_ntoa(clAddr.sin_addr), ntohs(clAddr.sin_port), commSock);
     }
 }
