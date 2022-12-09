@@ -69,7 +69,7 @@ int main(int argc, char **argv)
         printf("\nOdaberite opciju:\n2. pregled prognoze\n5. izlaz iz programa\n>>> ");
         int odabir;
         if (scanf("%d", &odabir) < 1)
-            continue;
+            break;
         switch (odabir)
         {
         case GET_CITY:

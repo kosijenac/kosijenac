@@ -11,9 +11,14 @@
 #define OK 1
 #define NE 0
 
+#define FREE 0
+#define BUSY 1
+#define IDLE 2
+
 #define GRAD_SIZE 30
 #define OPIS_SIZE 30
 #define MAX_PROGNOZA 100
+#define MAX_THREADS 10
 #define PORT 8036
 #define ADDR "194.36.45.89"
 
